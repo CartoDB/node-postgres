@@ -156,3 +156,19 @@ test('null and undefined are both inserted as NULL', function() {
     }))
   }))
 })
+
+test('provides field names and types to the callback', function() {
+  pg.connect(helper.config, assert.calls(function(err, client) {
+    assert.isNull(err);
+    var config = {
+      text: 'select $1::text as val limit 0'
+    };
+    client.query(config, ['hi'], assert.calls(function(err, result) {
+      assert.isNull(err);
+      assert.equal(result.fields.length, 1);
+      assert.equal(result.fields[0].name, 'val');
+      assert.equal(result.fields[0].type, 'text');
+    }))
+  }))
+})
+
