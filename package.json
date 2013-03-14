@@ -10,7 +10,7 @@
   "author" : "Brian Carlson <brian.m.carlson@gmail.com>",
   "main" : "./lib",
   "dependencies" : {
-    "generic-pool" : "2.0.2"
+    "generic-pool" : "~2.0.3"
   },
   "devDependencies" : {
     "jshint" : "git://github.com/jshint/jshint.git"
