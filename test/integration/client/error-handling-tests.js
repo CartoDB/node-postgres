@@ -1,4 +1,5 @@
 var helper = require(__dirname + '/test-helper');
+var pg = helper.pg;
 var util = require('util');
 
 var createErorrClient = function() {
@@ -179,3 +180,27 @@ test('query receives error on client shutdown', function() {
   }));
 });
 
+test('query adeheres to maxRowSize', function() {
+    // not implemented in native library, so it does not make sense to run this test in native mode
+    if (helper.config.native) {
+        return true;
+    }
+
+    var client = new Client(helper.config);
+
+    client.connect(function() {
+        var query = 'SELECT 1 as id',
+            queryRowSize = 60;
+
+        test('too large row', function() {
+            pg.defaults.maxRowSize = queryRowSize - 1;
+            client.query(query, assert.calls(function(err, res) {
+                // relax maxRowSize
+                pg.defaults.maxRowSize = undefined;
+
+                assert(err);
+                assert.equal(err.message, 'Row too large, was ' + queryRowSize + ' bytes');
+            }));
+        });
+    });
+});
