@@ -181,6 +181,11 @@ test('query receives error on client shutdown', function() {
 });
 
 test('query adeheres to maxRowSize', function() {
+    // not implemented in native library, so it does not make sense to run this test in native mode
+    if (helper.config.native) {
+        return true;
+    }
+
     var client = new Client(helper.config);
 
     client.connect(function() {
