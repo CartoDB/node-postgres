@@ -17,6 +17,9 @@ p.write = function(packet) {
 
 p.writable = true;
 
+p.setKeepAlive = function() {
+};
+
 createClient = function() {
   var stream = new MemoryStream();
   stream.readyState = "open";
