@@ -73,3 +73,35 @@ test('calls connect correctly on connection', function() {
   assert.strictEqual(usedHost, undefined)
 })
 
+test('keep-alive is propagated to connection', function() {
+  test('values set in connectionParameters', function() {
+    var keepAliveEnabled = true;
+    var keepAliveInitialDelay = 5000;
+    var client = new Client({
+      user: 'brian',
+      database: 'pgjstest',
+      port: 321,
+      password: 'boom',
+      keepAlive: {
+        enabled: keepAliveEnabled,
+        initialDelay: keepAliveInitialDelay
+      }
+    });
+
+    assert.equal(client.connectionParameters.keepAlive.enabled, keepAliveEnabled);
+    assert.equal(client.connectionParameters.keepAlive.initialDelay, keepAliveInitialDelay);
+  });
+
+  test('no keepAlive in connectionParameters', function() {
+    var keepAliveEnabled = true;
+    var keepAliveInitialDelay = 5000;
+    var client = new Client({
+      user: 'brian',
+      database: 'pgjstest',
+      port: 321,
+      password: 'boom',
+    });
+
+    assert.equal(client.connectionParameters.keepAlive, false);
+  });
+})
