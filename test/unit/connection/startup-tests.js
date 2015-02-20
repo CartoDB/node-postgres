@@ -81,6 +81,8 @@ test('keep-alive configuration', function() {
   test('keep-alive should NOT be hit', function() {
     setKeepAliveHit = false;
     var con = new Connection({stream: stream});
+    con.connect();
+    stream.emit('connect');
     assert.ok(!setKeepAliveHit, 'setKeepAliveHit should not be called');
     assert.equal(keepAliveEnabledValue, undefined);
     assert.equal(keepAliveInitialDelayValue, undefined);
@@ -89,6 +91,8 @@ test('keep-alive configuration', function() {
   test('keep-alive should be hit', function() {
     setKeepAliveHit = false;
     var con = new Connection({stream: stream, keepAlive: {enabled: true, initialDelay: 5000}});
+    con.connect();
+    stream.emit('connect');
     assert.ok(setKeepAliveHit, 'setKeepAliveHit should be called');
     assert.equal(keepAliveEnabledValue, true);
     assert.equal(keepAliveInitialDelayValue, 5000);
@@ -98,6 +102,8 @@ test('keep-alive configuration', function() {
   test('keep-alive should be hit for enabled=false', function() {
     setKeepAliveHit = false;
     var con = new Connection({stream: stream, keepAlive: {enabled: false}});
+    con.connect();
+    stream.emit('connect');
     assert.ok(setKeepAliveHit, 'setKeepAliveHit should be called');
     assert.equal(keepAliveEnabledValue, false);
     assert.equal(keepAliveInitialDelayValue, undefined);
