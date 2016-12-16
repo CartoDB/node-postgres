@@ -6,8 +6,9 @@ for(var i = 0; i < process.argv.length; i++) {
   switch(process.argv[i].toLowerCase()) {
   case 'native':
     if (semver.gte(process.version, '4.0.0')) {
-      console.log('Not running native in node < v4.0.0')
       config.native = true;
+    } else {
+      console.log('Not running native in node < v4.0.0')
     }
     break;
   case 'binary':
