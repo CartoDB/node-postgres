@@ -9,7 +9,7 @@ if (helper.config.binary) {
 test('can read and write json', function() {
   helper.pg.connect(helper.config, function(err, client, done) {
     assert.ifError(err);
-    helper.versionGTE(client, '9.2.0', assert.success(function(jsonSupported) {
+    helper.versionGTE(client, '90200', assert.success(function(jsonSupported) {
       if(!jsonSupported) {
         console.log('skip json test on older versions of postgres');
         done();

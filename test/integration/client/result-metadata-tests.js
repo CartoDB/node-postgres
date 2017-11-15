@@ -5,7 +5,7 @@ test('should return insert metadata', function() {
   pg.connect(helper.config, assert.calls(function(err, client, done) {
     assert.isNull(err);
 
-    helper.versionGTE(client, '9.0.0', assert.success(function(hasRowCount) {
+    helper.versionGTE(client, '90000', assert.success(function(hasRowCount) {
       client.query("CREATE TEMP TABLE zugzug(name varchar(10))", assert.calls(function(err, result) {
         assert.isNull(err);
         assert.equal(result.oid, null);
