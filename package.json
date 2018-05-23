@@ -38,7 +38,7 @@
   "minNativeVersion": "1.7.0",
   "scripts": {
     "changelog": "npm i github-changes && ./node_modules/.bin/github-changes -o brianc -r node-postgres -d pulls -a -v",
-    "test": "make test-all connectionString=postgres://postgres@localhost:5432/postgres"
+    "test": "make test-all-nonative connectionString=postgres://postgres@localhost:$PGPORT/postgres"
   },
   "license": "MIT",
   "engines": {
