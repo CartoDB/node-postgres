@@ -19,6 +19,7 @@ test: test-unit
 
 test-all: jshint test-missing-native test-unit test-integration test-native test-binary
 
+test-all-nonative: jshint test-unit test-integration test-binary
 
 update-npm:
 	@npm i npm --global

@@ -1,5 +1,5 @@
-var helper = require(__dirname + "/../test-helper");
-var pg = require(__dirname + "/../../../lib");
+var helper = require("../test-helper");
+var pg = require("../../../lib");
 
 //first make pool hold 2 clients
 pg.defaults.poolSize = 2;
@@ -11,7 +11,7 @@ pg.connect(helper.config, assert.success(function(client, done) {
     pg.connect(helper.config, assert.success(function(client2, done2) {
       client2.id = 2;
       var pidColName = 'procpid';
-      helper.versionGTE(client2, '9.2.0', assert.success(function(isGreater) {
+      helper.versionGTE(client2, '90200', assert.success(function(isGreater) {
         var killIdleQuery = 'SELECT pid, (SELECT pg_terminate_backend(pid)) AS killed FROM pg_stat_activity WHERE state = $1';
         var params = ['idle'];
         if(!isGreater) {

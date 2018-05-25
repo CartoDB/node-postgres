@@ -7,7 +7,7 @@ test('error during query execution', function() {
     var sleepQuery = 'select pg_sleep(5)';
     var pidColName = 'procpid'
     var queryColName = 'current_query';
-    helper.versionGTE(client, '9.2.0', assert.success(function(isGreater) {
+    helper.versionGTE(client, 90200, assert.success(function(isGreater) {
       if(isGreater) {
         pidColName = 'pid';
         queryColName = 'query';
@@ -43,7 +43,7 @@ if(helper.config.native) return;
 test('9.3 column error fields', function() {
   var client = new Client(helper.args);
   client.connect(assert.success(function() {
-    helper.versionGTE(client, '9.3.0', assert.success(function(isGreater) {
+    helper.versionGTE(client, 90300, assert.success(function(isGreater) {
       if(!isGreater) {
         return client.end();
       }
@@ -65,7 +65,7 @@ test('9.3 column error fields', function() {
 test('9.3 constraint error fields', function() {
   var client = new Client(helper.args);
   client.connect(assert.success(function() {
-    helper.versionGTE(client, '9.3.0', assert.success(function(isGreater) {
+    helper.versionGTE(client, 90300, assert.success(function(isGreater) {
       if(!isGreater) {
         console.log('skip 9.3 error field on older versions of postgres');
         return client.end();
