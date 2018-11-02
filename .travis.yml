@@ -13,7 +13,7 @@ env:
 node_js:
   - "6"
   - "8"
-
+  - "10"
 
 before_install:
   - sudo service postgresql stop;
@@ -23,4 +23,3 @@ before_install:
   - export PGUSER=postgres
   - export PGDATABASE=postgres
   - sudo service postgresql restart $POSTGRESQL_VERSION;
-
