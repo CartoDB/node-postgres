@@ -2,6 +2,7 @@ var helper = require('./test-helper')
 
 process.on('warning', function (warning) {
   console.log(warning)
+  if (warning.message.startsWith('Buffer() is deprecated')) return
   throw new Error('Should not emit deprecation warning')
 })
 
