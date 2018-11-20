@@ -1,5 +1,8 @@
 # CARTO's changelog
 
+## 6.4.2-cdb3
+2018-mm-dd
+
 ## 6.4.2-cdb2
 2018-11-20
 
