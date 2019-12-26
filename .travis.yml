@@ -1,19 +1,28 @@
-dist: xenial
-sudo: false
-
 language: node_js
-node_js:
-  - "10"
-  - "12"
 
 env:
   global:
     - CC=clang CXX=clang++ npm_config_clang=1 PGUSER=postgres PGDATABASE=postgres
-
-  matrix:
-    - POSTGRESQL_VERSION="10"
-    - POSTGRESQL_VERSION="11"
-    - POSTGRESQL_VERSION="12"
+jobs:
+  include:
+    - env: POSTGRESQL_VERSION="9.6"
+      dist: xenial
+      node_js: 10
+    - env: POSTGRESQL_VERSION="10"
+      dist: xenial
+      node_js: 10
+    - env: POSTGRESQL_VERSION="11"
+      dist: xenial
+      node_js: 10
+    - env: POSTGRESQL_VERSION="11"
+      dist: xenial
+      node_js: 12
+    - env: POSTGRESQL_VERSION="12"
+      dist: bionic
+      node_js: 10
+    - env: POSTGRESQL_VERSION="12"
+      dist: bionic
+      node_js: 12
 
 before_install:
   - sudo service postgresql stop;
