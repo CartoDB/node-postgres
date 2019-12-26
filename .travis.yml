@@ -1,25 +1,37 @@
 language: node_js
-sudo: false
-dist: trusty
-before_script:
-  - node script/create-test-tables.js pg://postgres@127.0.0.1:$PGPORT/postgres
-env:
-  - CC=clang CXX=clang++ npm_config_clang=1 PGUSER=postgres PGDATABASE=postgres
 
 env:
-    - POSTGRESQL_VERSION="9.5"
-    - POSTGRESQL_VERSION="10"
-
-node_js:
-  - "6"
-  - "8"
-  - "10"
+  global:
+    - CC=clang CXX=clang++ npm_config_clang=1 PGUSER=postgres PGDATABASE=postgres
+jobs:
+  include:
+    - env: POSTGRESQL_VERSION="9.6"
+      dist: xenial
+      node_js: 10
+    - env: POSTGRESQL_VERSION="10"
+      dist: xenial
+      node_js: 10
+    - env: POSTGRESQL_VERSION="11"
+      dist: xenial
+      node_js: 10
+    - env: POSTGRESQL_VERSION="11"
+      dist: xenial
+      node_js: 12
+    - env: POSTGRESQL_VERSION="12"
+      dist: bionic
+      node_js: 10
+    - env: POSTGRESQL_VERSION="12"
+      dist: bionic
+      node_js: 12
 
 before_install:
   - sudo service postgresql stop;
-  - sudo apt-get install -y --allow-unauthenticated --no-install-recommends --no-install-suggests postgresql-$POSTGRESQL_VERSION postgresql-client-$POSTGRESQL_VERSION postgresql-server-dev-$POSTGRESQL_VERSION
-  - echo -e "# TYPE  DATABASE        USER            ADDRESS                 METHOD \nlocal   all             postgres                                trust\nlocal   all             all                                     trust\nhost    all             all             127.0.0.1/32            trust"  | sudo tee /etc/postgresql/$POSTGRESQL_VERSION/main/pg_hba.conf
-  - export PGPORT=`grep ^port /etc/postgresql/$POSTGRESQL_VERSION/main/postgresql.conf | awk '{print $3}'`
-  - export PGUSER=postgres
-  - export PGDATABASE=postgres
-  - sudo service postgresql restart $POSTGRESQL_VERSION;
+  - sudo apt-get remove postgresql* -y
+  - sudo apt-get install -y --allow-unauthenticated --no-install-recommends --no-install-suggests postgresql-$POSTGRESQL_VERSION postgresql-client-$POSTGRESQL_VERSION postgresql-server-dev-$POSTGRESQL_VERSION postgresql-common
+  - sudo pg_dropcluster --stop $POSTGRESQL_VERSION main
+  - sudo rm -rf /etc/postgresql/$POSTGRESQL_VERSION /var/lib/postgresql/$POSTGRESQL_VERSION
+  - sudo pg_createcluster -u postgres $POSTGRESQL_VERSION main -- -A trust
+  - sudo /etc/init.d/postgresql start $POSTGRESQL_VERSION || sudo journalctl -xe
+
+before_script:
+  - node script/create-test-tables.js pg://postgres@127.0.0.1:$PGPORT/postgres
